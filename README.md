@@ -11,7 +11,7 @@ BT-KL-150 Java aday degerlendirme odevi icin hazirlanmis Spring Boot baslangic u
 - Raporlama ve grafik: emlak durum grafigi, islem sayilari, satis/kiralama tutar ozetleri
 - HTML5, CSS ve JavaScript tabanli Thymeleaf ekranlari
 - JPA tabanli veri modeli
-- Gelistirme icin H2, gecis icin PostgreSQL surucusu
+- Gelistirme icin PostgreSQL veritabani
 
 ## Isverene Sunulacak Calisma Ozeti
 
@@ -29,7 +29,7 @@ Projede yapilan baslica isler:
 - Form dogrulamalari Bean Validation ile eklendi; zorunlu alanlar ve hatali girisler icin kullaniciya mesaj verilir.
 - Thymeleaf, HTML5, CSS ve JavaScript ile kullanilabilir web ekranlari tasarlandi.
 - Spring Data JPA ve Hibernate ile iliskisel veri modeli kuruldu.
-- Gelistirme ortaminda hizli calisma icin H2 veritabani ayarlandi; PostgreSQL'e gecis icin surucu ve ornek konfigurasyon notlari eklendi.
+- Gelistirme ortaminda PostgreSQL veritabani kullanilacak sekilde ayarlandi.
 - PDF gereksinimlerine gore karsilanan maddeler `docs/requirements-checklist.md` dosyasinda ayrica belgelendi.
 
 ## Ekran Goruntuleri
@@ -62,7 +62,7 @@ Projede yapilan baslica isler:
 - Spring Data JPA / Hibernate
 - Thymeleaf
 - Bean Validation
-- H2 Database
+- PostgreSQL
 - PostgreSQL JDBC Driver
 - Maven
 - HTML5, CSS, JavaScript
@@ -83,18 +83,28 @@ IntelliJ IDEA kullaniliyorsa:
 2. `com.emlakprojesi.EmlakProjesiApplication` sinifini calistirin.
 3. Uygulamayi `http://localhost:8080` adresinden acin.
 
-H2 konsolu:
+Uygulama varsayilan olarak lokal PostgreSQL uzerindeki `emlakdb` veritabanina baglanir:
 
 ```text
-http://localhost:8080/h2-console
-JDBC URL: jdbc:h2:mem:emlakdb
-User: sa
-Password: bos
+jdbc:postgresql://localhost:5432/emlakdb
+User: postgres
+Password: postgres
 ```
 
-## PostgreSQL Ayari
+PostgreSQL'de veritabani yoksa once olusturun:
 
-`src/main/resources/application.properties` icindeki PostgreSQL ornek satirlarini aktif edip H2 satirlarini kapatarak gecis yapabilirsiniz.
+```sql
+CREATE DATABASE emlakdb;
+```
+
+Farkli baglanti bilgileri icin ortam degiskenleri kullanilabilir:
+
+```powershell
+$env:DB_URL="jdbc:postgresql://localhost:5432/emlakdb"
+$env:DB_USERNAME="postgres"
+$env:DB_PASSWORD="postgres-sifreniz"
+mvn spring-boot:run
+```
 
 ## Gereksinim Kontrolu
 

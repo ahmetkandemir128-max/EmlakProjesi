@@ -7,7 +7,7 @@ PDF'te okunabilen ana beklentilere gore proje durumu:
 | Java tabanli web uygulamasi | Karsilandi | Spring Boot MVC |
 | Spring Boot/EJB benzeri kurumsal yapi | Karsilandi | Controller, Service, Repository, Domain katmanlari |
 | ORM kullanimi | Karsilandi | Spring Data JPA / Hibernate |
-| Iliskisel veritabani | Karsilandi | H2 gelistirme DB, PostgreSQL surucusu ve ayar notlari |
+| Iliskisel veritabani | Karsilandi | PostgreSQL veritabani ve JDBC surucusu |
 | HTML5, CSS, JavaScript ekranlari | Karsilandi | Thymeleaf template, `app.css`, `app.js` |
 | Kisi kaydi | Karsilandi | `/people` |
 | Alan, satan, kiraci, kiraya veren rolleri | Karsilandi | `PersonRole` |
