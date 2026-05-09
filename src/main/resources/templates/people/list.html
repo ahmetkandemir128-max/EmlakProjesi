@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kisi Kayitlari</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">Emlak Projesi</a>
+    <nav>
+        <a th:href="@{/}">Emlaklar</a>
+        <a th:href="@{/people}">Kisiler</a>
+        <a th:href="@{/deals}">Islemler</a>
+        <a th:href="@{/reports}">Raporlar</a>
+        <a class="button" th:href="@{/properties/new}">Yeni Emlak</a>
+    </nav>
+</header>
+
+<main class="page two-column">
+    <section class="panel">
+        <div class="section-title">
+            <h1>Kisi Kaydi</h1>
+        </div>
+        <form class="stack" method="post" th:action="@{/people}" th:object="${person}">
+            <label>Ad
+                <input type="text" th:field="*{firstName}" required>
+                <span class="field-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Hata</span>
+            </label>
+            <label>Soyad
+                <input type="text" th:field="*{lastName}" required>
+                <span class="field-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Hata</span>
+            </label>
+            <label>T.C. Kimlik No
+                <input type="text" th:field="*{nationalId}" inputmode="numeric" pattern="[0-9]{11}" minlength="11" maxlength="11" required>
+                <span class="field-error" th:if="${#fields.hasErrors('nationalId')}" th:errors="*{nationalId}">Hata</span>
+            </label>
+            <label>Telefon
+                <input type="text" th:field="*{phone}" inputmode="numeric" pattern="[0-9]{10,15}" minlength="10" maxlength="15" required>
+                <span class="field-error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Hata</span>
+            </label>
+            <label>E-posta
+                <input type="email" th:field="*{email}" required>
+                <span class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Hata</span>
+            </label>
+            <label>Rol
+                <select th:field="*{role}" required>
+                    <option value="">Seciniz</option>
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role.label}">Rol</option>
+                </select>
+                <span class="field-error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Hata</span>
+            </label>
+            <button type="submit">Kaydet</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <div class="section-title">
+            <h1>Kisi Arama</h1>
+        </div>
+        <form class="filters" method="get" th:action="@{/people}">
+            <input type="search" name="keyword" placeholder="Ad, soyad veya T.C. no" th:value="${keyword}">
+            <button type="submit">Ara</button>
+        </form>
+        <div class="table-wrap embedded">
+            <table>
+                <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>Rol</th>
+                    <th>Telefon</th>
+                    <th>E-posta</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="person : ${people}">
+                    <td th:text="${person.fullName}">Ad Soyad</td>
+                    <td th:text="${person.role.label}">Rol</td>
+                    <td th:text="${person.phone}">Telefon</td>
+                    <td th:text="${person.email}">E-posta</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(people)}">
+                    <td colspan="4" class="empty">Kayit bulunamadi.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Raporlar</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">Emlak Projesi</a>
+    <nav>
+        <a th:href="@{/}">Emlaklar</a>
+        <a th:href="@{/people}">Kisiler</a>
+        <a th:href="@{/deals}">Islemler</a>
+        <a th:href="@{/reports}">Raporlar</a>
+        <a class="button" th:href="@{/properties/new}">Yeni Emlak</a>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="stats">
+        <div>
+            <span>Toplam Islem</span>
+            <strong th:text="${summary.dealCount}">0</strong>
+        </div>
+        <div>
+            <span>Satilan</span>
+            <strong th:text="${summary.soldCount}">0</strong>
+        </div>
+        <div>
+            <span>Kiraya Verilen</span>
+            <strong th:text="${summary.rentedCount}">0</strong>
+        </div>
+        <div>
+            <span>Kayitli Emlak</span>
+            <strong th:text="${summary.propertyCount}">0</strong>
+        </div>
+    </section>
+
+    <section class="report-grid">
+        <div class="panel">
+            <div class="section-title">
+                <h1>Emlak Durum Grafigi</h1>
+            </div>
+            <div class="bar-list">
+                <div class="bar-row">
+                    <span>Satilik</span>
+                    <meter min="0" th:max="${summary.propertyCount > 0 ? summary.propertyCount : 1}" th:value="${summary.saleCount}"></meter>
+                    <strong th:text="${summary.saleCount}">0</strong>
+                </div>
+                <div class="bar-row">
+                    <span>Kiralik</span>
+                    <meter min="0" th:max="${summary.propertyCount > 0 ? summary.propertyCount : 1}" th:value="${summary.rentCount}"></meter>
+                    <strong th:text="${summary.rentCount}">0</strong>
+                </div>
+                <div class="bar-row">
+                    <span>Satildi</span>
+                    <meter min="0" th:max="${summary.propertyCount > 0 ? summary.propertyCount : 1}" th:value="${summary.soldCount}"></meter>
+                    <strong th:text="${summary.soldCount}">0</strong>
+                </div>
+                <div class="bar-row">
+                    <span>Kiraya Verildi</span>
+                    <meter min="0" th:max="${summary.propertyCount > 0 ? summary.propertyCount : 1}" th:value="${summary.rentedCount}"></meter>
+                    <strong th:text="${summary.rentedCount}">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="section-title">
+                <h1>Finansal Ozet</h1>
+            </div>
+            <div class="money-list">
+                <div>
+                    <span>Satis Toplami</span>
+                    <strong th:text="${#numbers.formatDecimal(summary.saleTotal, 1, 'POINT', 2, 'COMMA') + ' TL'}">0 TL</strong>
+                </div>
+                <div>
+                    <span>Kiralama Toplami</span>
+                    <strong th:text="${#numbers.formatDecimal(summary.rentTotal, 1, 'POINT', 2, 'COMMA') + ' TL'}">0 TL</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Tur</th>
+                <th>Emlak</th>
+                <th>Alici/Kiraci</th>
+                <th>Tutar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="deal : ${deals}">
+                <td th:text="${deal.dealDate}">2026-01-01</td>
+                <td th:text="${deal.type.label}">Tur</td>
+                <td th:text="${deal.property.title}">Emlak</td>
+                <td th:text="${deal.customer.fullName}">Kisi</td>
+                <td th:text="${#numbers.formatDecimal(deal.amount, 1, 'POINT', 2, 'COMMA') + ' TL'}">0 TL</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(deals)}">
+                <td colspan="5" class="empty">Kayit bulunamadi.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

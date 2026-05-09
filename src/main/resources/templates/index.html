@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Emlak Projesi</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">Emlak Projesi</a>
+    <nav>
+        <a th:href="@{/}">Emlaklar</a>
+        <a th:href="@{/people}">Kisiler</a>
+        <a th:href="@{/deals}">Islemler</a>
+        <a th:href="@{/reports}">Raporlar</a>
+        <a class="button" th:href="@{/properties/new}">Yeni Emlak</a>
+    </nav>
+</header>
+
+<main class="page">
+    <section class="stats">
+        <div>
+            <span>Toplam Emlak</span>
+            <strong th:text="${summary.propertyCount}">0</strong>
+        </div>
+        <div>
+            <span>Kayitli Kisi</span>
+            <strong th:text="${summary.personCount}">0</strong>
+        </div>
+        <div>
+            <span>Satilik</span>
+            <strong th:text="${summary.saleCount}">0</strong>
+        </div>
+        <div>
+            <span>Kiralik</span>
+            <strong th:text="${summary.rentCount}">0</strong>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="section-title">
+            <h1>Emlak Arama</h1>
+        </div>
+        <form class="filters" method="get" th:action="@{/}">
+            <input type="search" name="keyword" placeholder="Baslik, il veya ilce" th:value="${keyword}">
+            <select name="status">
+                <option value="">Tum durumlar</option>
+                <option th:each="status : ${statuses}"
+                        th:value="${status}"
+                        th:selected="${status == selectedStatus}"
+                        th:text="${status.label}">Durum</option>
+            </select>
+            <button type="submit">Ara</button>
+        </form>
+    </section>
+
+    <section class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Baslik</th>
+                <th>Tur</th>
+                <th>Durum</th>
+                <th>Konum</th>
+                <th>Fiyat</th>
+                <th>Sahip</th>
+                <th>Islem</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="property : ${properties}">
+                <td th:text="${property.title}">Baslik</td>
+                <td th:text="${property.type.label}">Tur</td>
+                <td><span class="tag" th:text="${property.status.label}">Durum</span></td>
+                <td th:text="${property.city + ' / ' + property.district}">Konum</td>
+                <td th:text="${#numbers.formatDecimal(property.price, 1, 'POINT', 2, 'COMMA') + ' TL'}">0 TL</td>
+                <td th:text="${property.owner != null ? property.owner.fullName : '-'}">Sahip</td>
+                <td><a class="text-link" th:href="@{/deals}">Islem kaydet</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(properties)}">
+                <td colspan="7" class="empty">Kayit bulunamadi.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

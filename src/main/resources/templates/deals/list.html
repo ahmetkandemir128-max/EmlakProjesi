@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Islem Kayitlari</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">Emlak Projesi</a>
+    <nav>
+        <a th:href="@{/}">Emlaklar</a>
+        <a th:href="@{/people}">Kisiler</a>
+        <a th:href="@{/deals}">Islemler</a>
+        <a th:href="@{/reports}">Raporlar</a>
+        <a class="button" th:href="@{/properties/new}">Yeni Emlak</a>
+    </nav>
+</header>
+
+<main class="page two-column">
+    <section class="panel">
+        <div class="section-title">
+            <h1>Satis/Kiralama Kaydi</h1>
+        </div>
+        <form class="stack" method="post" th:action="@{/deals}" th:object="${deal}">
+            <label>Islem Turu
+                <select th:field="*{type}" required>
+                    <option value="">Seciniz</option>
+                    <option th:each="type : ${dealTypes}" th:value="${type}" th:text="${type.label}">Tur</option>
+                </select>
+                <span class="field-error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Hata</span>
+            </label>
+            <label>Emlak
+                <select th:field="*{property}" required>
+                    <option value="">Seciniz</option>
+                    <option th:each="property : ${properties}"
+                            th:value="${property.id}"
+                            th:text="${property.title + ' - ' + property.status.label + ' - ' + property.city + '/' + property.district}">Emlak</option>
+                </select>
+                <span class="field-error" th:if="${#fields.hasErrors('property')}" th:errors="*{property}">Hata</span>
+            </label>
+            <label>Alici/Kiraci
+                <select th:field="*{customer}" required>
+                    <option value="">Seciniz</option>
+                    <option th:each="person : ${people}" th:value="${person.id}" th:text="${person.fullName + ' - ' + person.role.label}">Kisi</option>
+                </select>
+                <span class="field-error" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Hata</span>
+            </label>
+            <label>Tutar
+                <input type="number" min="0" step="0.01" inputmode="decimal" th:field="*{amount}" required>
+                <span class="field-error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">Hata</span>
+            </label>
+            <label>Islem Tarihi
+                <input type="date" th:field="*{dealDate}" required>
+                <span class="field-error" th:if="${#fields.hasErrors('dealDate')}" th:errors="*{dealDate}">Hata</span>
+            </label>
+            <button type="submit">Kaydet</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <div class="section-title">
+            <h1>Islem Gecmisi</h1>
+        </div>
+        <div class="table-wrap embedded">
+            <table>
+                <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Tur</th>
+                    <th>Emlak</th>
+                    <th>Alici/Kiraci</th>
+                    <th>Tutar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="deal : ${deals}">
+                    <td th:text="${deal.dealDate}">2026-01-01</td>
+                    <td><span class="tag" th:text="${deal.type.label}">Tur</span></td>
+                    <td th:text="${deal.property.title}">Emlak</td>
+                    <td th:text="${deal.customer.fullName}">Kisi</td>
+                    <td th:text="${#numbers.formatDecimal(deal.amount, 1, 'POINT', 2, 'COMMA') + ' TL'}">0 TL</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(deals)}">
+                    <td colspan="5" class="empty">Kayit bulunamadi.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
