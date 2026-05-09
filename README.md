@@ -32,6 +32,28 @@ Projede yapilan baslica isler:
 - Gelistirme ortaminda hizli calisma icin H2 veritabani ayarlandi; PostgreSQL'e gecis icin surucu ve ornek konfigurasyon notlari eklendi.
 - PDF gereksinimlerine gore karsilanan maddeler `docs/requirements-checklist.md` dosyasinda ayrica belgelendi.
 
+## Ekran Goruntuleri
+
+### Emlaklar
+
+![Emlaklar](images/emlaklar.png)
+
+### Yeni Emlak Kaydi
+
+![Yeni Emlak Kaydi](images/yeni-emlak.png)
+
+### Kisiler
+
+![Kisiler](images/kisiler.png)
+
+### Islemler
+
+![Islemler](images/islemler.png)
+
+### Raporlar
+
+![Raporlar](images/raporlar.png)
+
 ## Kullanilan Teknolojiler
 
 - Java 8
